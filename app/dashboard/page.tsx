@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 
 // --- Icons ---
@@ -18,10 +18,42 @@ const Icons = {
       <path d="M19.97 16.636A4 4 0 0 1 18 18"/>
     </svg>
   ),
-  Chart: ({ className }: { className?: string }) => (
+  AlertTriangle: ({ className }: { className?: string }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M3 3v18h18"/>
-      <path d="m19 9-5 5-4-4-3 3"/>
+      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+      <path d="M12 9v4"/>
+      <path d="M12 17h.01"/>
+    </svg>
+  ),
+  TrendingUp: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+      <polyline points="17 6 23 6 23 12"/>
+    </svg>
+  ),
+  Users: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+  ),
+  DollarSign: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <line x1="12" y1="1" x2="12" y2="23"/>
+      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+    </svg>
+  ),
+  Activity: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+    </svg>
+  ),
+  ArrowRight: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M5 12h14"/>
+      <path d="m12 5 7 7-7 7"/>
     </svg>
   ),
   Settings: ({ className }: { className?: string }) => (
@@ -30,263 +62,224 @@ const Icons = {
       <circle cx="12" cy="12" r="3"/>
     </svg>
   ),
-  Activity: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-    </svg>
-  ),
-  Target: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <circle cx="12" cy="12" r="10"/>
-      <circle cx="12" cy="12" r="6"/>
-      <circle cx="12" cy="12" r="2"/>
-    </svg>
-  ),
-  Message: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-    </svg>
-  ),
-  Mail: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <rect width="20" height="16" x="2" y="4" rx="2"/>
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-    </svg>
-  ),
-  Leaf: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.77 10-10 10Z"/>
-      <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-    </svg>
-  ),
-  ArrowUpRight: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M7 7h10v10"/>
-      <path d="M7 17 17 7"/>
-    </svg>
-  ),
 };
 
 // --- Mock Data ---
-const DATA = {
-  funnelA: {
-    title: "Direct",
-    icon: Icons.Target,
-    metrics: [
-      { label: "Ad Spend", value: "$4,250", trend: "+12%" },
-      { label: "ROAS", value: "3.4x", trend: "+0.2" },
-      { label: "Sales", value: "$14,450", trend: "+15%" },
-    ]
-  },
-  funnelB: {
-    title: "Chatbot",
-    icon: Icons.Message,
-    metrics: [
-      { label: "Conversations", value: "1,240", trend: "+8%" },
-      { label: "Link Clicks", value: "856", trend: "+5%" },
-      { label: "Sales", value: "$6,200", trend: "+10%" },
-    ]
-  },
-  funnelC: {
-    title: "Recovery",
-    icon: Icons.Mail,
-    metrics: [
-      { label: "Emails Sent", value: "3,400", trend: "+2%" },
-      { label: "Open Rate", value: "42%", trend: "-1%" },
-      { label: "Recovered", value: "$2,850", trend: "+18%" },
-    ]
-  },
-  funnelD: {
-    title: "Organic",
-    icon: Icons.Leaf,
-    metrics: [
-      { label: "Views", value: "45K", trend: "+22%" },
-      { label: "Sales", value: "$1,100", trend: "+4%" },
-    ]
-  }
-};
 
-const REVENUE_DATA = [
-  { name: 'Direct', value: 14450, color: 'bg-emerald-500' },
-  { name: 'Chatbot', value: 6200, color: 'bg-emerald-600' },
-  { name: 'Recovery', value: 2850, color: 'bg-emerald-700' },
-  { name: 'Organic', value: 1100, color: 'bg-emerald-800' },
+const NORTH_STAR = [
+  { label: "Total Revenue", value: "$42,850", trend: "+12.5%", icon: Icons.DollarSign, color: "text-emerald-400" },
+  { label: "Blended ROAS", value: "3.8x", trend: "+0.4", icon: Icons.Activity, color: "text-blue-400" },
+  { label: "Total Leads", value: "2,405", trend: "+8.2%", icon: Icons.Users, color: "text-purple-400" },
 ];
 
-const TOTAL_REVENUE = REVENUE_DATA.reduce((acc, curr) => acc + curr.value, 0);
+const FUNNEL_METRICS = {
+  acquisition: [
+    { label: "Ad Spend", value: "$11,250" },
+    { label: "Impressions", value: "850k" },
+    { label: "CPM", value: "$13.20" },
+  ],
+  engagement: [
+    { label: "LP Views", value: "42,000" },
+    { label: "Chat Starts", value: "8,500" },
+    { label: "Engage Rate", value: "20.2%" },
+  ],
+  conversion: [
+    { label: "Sales", value: "580" },
+    { label: "Avg Order Val", value: "$74.00" },
+    { label: "Conv Rate", value: "1.4%" },
+  ],
+};
+
+const SOURCE_DATA = [
+  { source: "Direct Traffic", visitors: "12,500", leads: "850", conv: "6.8%", revenue: "$15,200", status: "Stable" },
+  { source: "AI Chatbot", visitors: "8,200", leads: "1,240", conv: "15.1%", revenue: "$18,400", status: "Trending" },
+  { source: "Email Recovery", visitors: "3,400", leads: "315", conv: "9.2%", revenue: "$9,250", status: "Review" },
+];
+
+const ANOMALIES = [
+  { id: 1, message: "Chatbot conversion dropped 15% in last 4 hours", severity: "high" },
+  { id: 2, message: "CPC spike in Ad Set #4 (Acquisition)", severity: "medium" },
+];
 
 // --- Components ---
 
-const FunnelCard = ({ data }: { data: typeof DATA.funnelA }) => (
-  <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 hover:border-zinc-700 transition-all group relative overflow-hidden">
-    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-      <data.icon className="w-24 h-24 text-emerald-500" />
-    </div>
-    
-    <div className="flex items-center gap-3 mb-6 relative z-10">
-      <div className="p-2 bg-zinc-950 border border-zinc-800 rounded-lg group-hover:border-emerald-500/50 transition-colors">
-        <data.icon className="w-5 h-5 text-emerald-500" />
+const MetricCard = ({ item }: { item: typeof NORTH_STAR[0] }) => (
+  <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 flex flex-col justify-between hover:border-zinc-700 transition-all group">
+    <div className="flex justify-between items-start mb-4">
+      <div className={`p-3 rounded-lg bg-zinc-950 border border-zinc-800 group-hover:border-zinc-700 transition-colors ${item.color}`}>
+        <item.icon className="w-6 h-6" />
       </div>
-      <h3 className="font-semibold text-white text-lg">{data.title}</h3>
+      <div className={`text-sm font-medium px-2 py-1 rounded-full bg-zinc-950 border border-zinc-800 ${item.trend.startsWith('+') ? 'text-emerald-400' : 'text-rose-400'}`}>
+        {item.trend}
+      </div>
     </div>
-
-    <div className="space-y-4 relative z-10">
-      {data.metrics.map((metric, i) => (
-        <div key={i} className="flex justify-between items-end border-b border-zinc-800/50 pb-2 last:border-0 last:pb-0">
-          <span className="text-sm text-zinc-500">{metric.label}</span>
-          <div className="text-right">
-            <div className="text-white font-mono font-medium">{metric.value}</div>
-            <div className={`text-[10px] ${metric.trend.startsWith('+') ? 'text-emerald-500' : 'text-rose-500'}`}>
-              {metric.trend}
-            </div>
-          </div>
-        </div>
-      ))}
+    <div>
+      <h3 className="text-zinc-500 text-sm font-medium uppercase tracking-wider mb-1">{item.label}</h3>
+      <p className="text-3xl font-bold text-white tracking-tight">{item.value}</p>
     </div>
   </div>
 );
 
-const RevenueComposition = () => (
-  <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-    <div className="flex justify-between items-center mb-6">
-      <h3 className="text-lg font-semibold text-white">Revenue Composition</h3>
-      <div className="text-2xl font-bold text-white">${TOTAL_REVENUE.toLocaleString()}</div>
-    </div>
-
-    {/* Simple Stacked Bar */}
-    <div className="h-4 w-full flex rounded-full overflow-hidden mb-6">
-      {REVENUE_DATA.map((item, i) => (
-        <div 
-          key={i} 
-          className={`${item.color} hover:brightness-110 transition-all relative group`} 
-          style={{ width: `${(item.value / TOTAL_REVENUE) * 100}%` }}
-        >
-          {/* Tooltip */}
-          <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 hidden group-hover:block bg-zinc-950 text-white text-xs px-2 py-1 rounded border border-zinc-800 whitespace-nowrap z-20">
-            {item.name}: ${(item.value / 1000).toFixed(1)}k
-          </div>
+const FunnelColumn = ({ title, metrics, isLast }: { title: string, metrics: { label: string, value: string }[], isLast?: boolean }) => (
+  <div className="flex-1 min-w-[250px] relative">
+    <h4 className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-4 border-b border-zinc-800 pb-2">{title}</h4>
+    <div className="space-y-4">
+      {metrics.map((m, i) => (
+        <div key={i} className="flex justify-between items-center group">
+          <span className="text-zinc-500 text-sm group-hover:text-zinc-400 transition-colors">{m.label}</span>
+          <span className="text-white font-mono font-medium">{m.value}</span>
         </div>
       ))}
     </div>
+    {!isLast && (
+      <div className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 text-zinc-800 z-10">
+        <Icons.ArrowRight className="w-6 h-6" />
+      </div>
+    )}
+  </div>
+);
 
-    {/* Legend */}
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-      {REVENUE_DATA.map((item, i) => (
-        <div key={i} className="flex items-center gap-2">
-          <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
-          <div>
-            <div className="text-xs text-zinc-400">{item.name}</div>
-            <div className="text-sm font-medium text-white">{Math.round((item.value / TOTAL_REVENUE) * 100)}%</div>
-          </div>
-        </div>
-      ))}
-    </div>
+const AlertBanner = ({ anomaly }: { anomaly: typeof ANOMALIES[0] }) => (
+  <div className={`flex items-center gap-3 p-3 rounded-lg border ${anomaly.severity === 'high' ? 'bg-rose-950/20 border-rose-900/50 text-rose-200' : 'bg-amber-950/20 border-amber-900/50 text-amber-200'}`}>
+    <Icons.AlertTriangle className="w-5 h-5 shrink-0" />
+    <span className="text-sm font-medium">{anomaly.message}</span>
   </div>
 );
 
 export default function DashboardPage() {
+  const [activeTab, setActiveTab] = useState<'overview'|'details'>('overview');
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-200 font-sans selection:bg-emerald-500/30">
       
-      {/* Top Navigation */}
-      <nav className="border-b border-zinc-800/50 bg-zinc-900/50 backdrop-blur-md sticky top-0 z-50">
+      {/* Navbar */}
+      <nav className="border-b border-zinc-800/50 bg-zinc-900/30 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-900/20">
+              <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-900/20">
                 <Icons.Brain className="w-5 h-5 text-white" />
               </div>
               <span className="font-bold text-lg tracking-tight text-white">P2P <span className="text-emerald-500">Engine</span></span>
             </Link>
           </div>
-          
           <div className="flex items-center gap-4">
-             <Link href="/dashboard/creator" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">
-              Creator Tools
-             </Link>
-            <div className="h-6 w-px bg-zinc-800 mx-2"></div>
-            <button className="p-2 hover:bg-zinc-800 rounded-lg transition-colors text-zinc-400 hover:text-white">
-              <Icons.Settings className="w-5 h-5" />
-            </button>
-            <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-400 text-sm font-medium">
-              R
-            </div>
+             <div className="hidden sm:flex text-xs text-zinc-500 font-mono gap-4">
+                <span>SYSTEM: ONLINE</span>
+                <span>V2.4.0</span>
+             </div>
+             <button className="p-2 hover:bg-zinc-800 rounded-lg transition-colors text-zinc-400 hover:text-white">
+               <Icons.Settings className="w-5 h-5" />
+             </button>
+             <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-400 text-sm font-medium">
+               XO
+             </div>
           </div>
         </div>
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
-        {/* Header Section */}
+        {/* Header & Actions */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Command Center</h1>
-            <p className="text-zinc-400 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              All systems nominal. Tracking 4 active funnels.
-            </p>
+            <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Executive Command Center</h1>
+            <p className="text-zinc-400 text-sm">Real-time performance monitoring across all channels.</p>
           </div>
-          <div className="flex gap-3">
-             <button className="px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300 hover:text-white hover:border-zinc-700 transition-all text-sm font-medium">
-               Customize View
-             </button>
-             <button className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-all text-sm font-medium shadow-lg shadow-emerald-900/20 flex items-center gap-2">
-               Generate Report
-               <Icons.ArrowUpRight className="w-4 h-4" />
-             </button>
+          <div className="flex gap-2">
+            <button className="px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300 hover:text-white hover:border-zinc-700 transition-all text-sm font-medium">
+              Export Report
+            </button>
           </div>
         </div>
 
-        {/* 4-Funnel Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <FunnelCard data={DATA.funnelA} />
-          <FunnelCard data={DATA.funnelB} />
-          <FunnelCard data={DATA.funnelC} />
-          <FunnelCard data={DATA.funnelD} />
+        {/* 2. Red Flag Alerts (Anomalies) */}
+        {ANOMALIES.length > 0 && (
+          <div className="space-y-2">
+            <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2">Active Anomalies</h3>
+            <div className="grid gap-2">
+              {ANOMALIES.map((anomaly) => (
+                <AlertBanner key={anomaly.id} anomaly={anomaly} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 1. Top Row: North Star Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {NORTH_STAR.map((metric, i) => (
+            <MetricCard key={i} item={metric} />
+          ))}
         </div>
 
-        {/* Lower Section: Charts & Detailed Stats */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* 1. Middle Row: The Funnel Flow */}
+        <div className="bg-zinc-900/30 border border-zinc-800 rounded-xl p-8">
+           <h3 className="text-lg font-semibold text-white mb-6">Funnel Performance</h3>
+           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 relative">
+             <FunnelColumn title="Acquisition" metrics={FUNNEL_METRICS.acquisition} />
+             <div className="w-full h-px bg-zinc-800 lg:hidden"></div> {/* Mobile Divider */}
+             <FunnelColumn title="Engagement" metrics={FUNNEL_METRICS.engagement} />
+             <div className="w-full h-px bg-zinc-800 lg:hidden"></div> {/* Mobile Divider */}
+             <FunnelColumn title="Conversion" metrics={FUNNEL_METRICS.conversion} isLast />
+           </div>
+        </div>
+
+        {/* 1. Bottom Row: Source Breakdown */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-white">Source Breakdown</h3>
+            <div className="flex gap-2 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
+               <button 
+                 onClick={() => setActiveTab('overview')}
+                 className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${activeTab === 'overview' ? 'bg-zinc-800 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
+               >
+                 Overview
+               </button>
+               <button 
+                 onClick={() => setActiveTab('details')}
+                 className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${activeTab === 'details' ? 'bg-zinc-800 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
+               >
+                 Detailed View
+               </button>
+            </div>
+          </div>
           
-          {/* Revenue Composition (2/3 width) */}
-          <div className="lg:col-span-2">
-             <RevenueComposition />
+          <div className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/30">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-zinc-900/50 text-zinc-400 border-b border-zinc-800">
+                <tr>
+                  <th className="px-6 py-4 font-medium">Channel Source</th>
+                  <th className="px-6 py-4 font-medium text-right">Visitors</th>
+                  <th className="px-6 py-4 font-medium text-right">Leads</th>
+                  <th className="px-6 py-4 font-medium text-right">Conv. Rate</th>
+                  <th className="px-6 py-4 font-medium text-right">Revenue</th>
+                  <th className="px-6 py-4 font-medium text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-800">
+                {SOURCE_DATA.map((row, i) => (
+                  <tr key={i} className="hover:bg-zinc-900/50 transition-colors">
+                    <td className="px-6 py-4 font-medium text-white">{row.source}</td>
+                    <td className="px-6 py-4 text-right text-zinc-300">{row.visitors}</td>
+                    <td className="px-6 py-4 text-right text-zinc-300">{row.leads}</td>
+                    <td className="px-6 py-4 text-right text-emerald-400">{row.conv}</td>
+                    <td className="px-6 py-4 text-right text-white font-mono">{row.revenue}</td>
+                    <td className="px-6 py-4 text-center">
+                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                         row.status === 'Trending' ? 'bg-emerald-500/10 text-emerald-500' :
+                         row.status === 'Review' ? 'bg-rose-500/10 text-rose-500' :
+                         'bg-zinc-500/10 text-zinc-500'
+                       }`}>
+                         {row.status}
+                       </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-
-          {/* Quick Stats / Feed (1/3 width) */}
-          <div className="space-y-6">
-            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-               <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-4">Live Alerts</h3>
-               <div className="space-y-4">
-                 <div className="flex gap-3 items-start">
-                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2"></div>
-                   <div>
-                     <p className="text-sm text-zinc-300">High ROAS detected in <span className="text-emerald-400">Direct Funnel</span>.</p>
-                     <p className="text-xs text-zinc-500 mt-1">10 mins ago</p>
-                   </div>
-                 </div>
-                 <div className="flex gap-3 items-start">
-                   <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2"></div>
-                   <div>
-                     <p className="text-sm text-zinc-300">New Chatbot script deployed.</p>
-                     <p className="text-xs text-zinc-500 mt-1">1 hour ago</p>
-                   </div>
-                 </div>
-               </div>
-            </div>
-            
-            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 flex items-center justify-between">
-              <div>
-                 <div className="text-sm text-zinc-400">Total Profit</div>
-                 <div className="text-2xl font-bold text-white text-emerald-400">+$18,400</div>
-              </div>
-              <div className="h-10 w-10 rounded-full bg-emerald-500/10 flex items-center justify-center">
-                 <Icons.Activity className="w-5 h-5 text-emerald-500" />
-              </div>
-            </div>
-          </div>
-
         </div>
+
       </main>
     </div>
   );
