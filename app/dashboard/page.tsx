@@ -1,286 +1,266 @@
 'use client';
 
-import React, { useState } from 'react';
-import Link from 'next/link';
+import React from 'react';
 
-// --- Icons ---
+// --- Icons (Lucide-style SVGs) ---
 const Icons = {
-  Brain: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
-      <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
-      <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
-      <path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/>
-      <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/>
-      <path d="M3.477 10.896a4 4 0 0 1 .585-.396"/>
-      <path d="M19.938 10.5a4 4 0 0 1 .585.396"/>
-      <path d="M6 18a4 4 0 0 1-1.97-1.364"/>
-      <path d="M19.97 16.636A4 4 0 0 1 18 18"/>
-    </svg>
-  ),
-  AlertTriangle: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
-      <path d="M12 9v4"/>
-      <path d="M12 17h.01"/>
-    </svg>
-  ),
-  TrendingUp: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-      <polyline points="17 6 23 6 23 12"/>
-    </svg>
+  Activity: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
   ),
   Users: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-      <circle cx="9" cy="7" r="4"/>
-      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
   ),
-  DollarSign: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <line x1="12" y1="1" x2="12" y2="23"/>
-      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-    </svg>
+  Zap: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
   ),
-  Activity: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-    </svg>
+  Target: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
   ),
-  ArrowRight: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M5 12h14"/>
-      <path d="m12 5 7 7-7 7"/>
-    </svg>
+  MessageCircle: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
   ),
-  Settings: ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-      <circle cx="12" cy="12" r="3"/>
-    </svg>
+  RefreshCw: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+  ),
+  Search: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+  ),
+  ArrowUpRight: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+  ),
+  TrendingUp: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+  ),
+  MoreHorizontal: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
   ),
 };
-
-// --- Mock Data ---
-
-const NORTH_STAR = [
-  { label: "Total Revenue", value: "$42,850", trend: "+12.5%", icon: Icons.DollarSign, color: "text-emerald-400" },
-  { label: "Blended ROAS", value: "3.8x", trend: "+0.4", icon: Icons.Activity, color: "text-blue-400" },
-  { label: "Total Leads", value: "2,405", trend: "+8.2%", icon: Icons.Users, color: "text-purple-400" },
-];
-
-const FUNNEL_METRICS = {
-  acquisition: [
-    { label: "Ad Spend", value: "$11,250" },
-    { label: "Impressions", value: "850k" },
-    { label: "CPM", value: "$13.20" },
-  ],
-  engagement: [
-    { label: "LP Views", value: "42,000" },
-    { label: "Chat Starts", value: "8,500" },
-    { label: "Engage Rate", value: "20.2%" },
-  ],
-  conversion: [
-    { label: "Sales", value: "580" },
-    { label: "Avg Order Val", value: "$74.00" },
-    { label: "Conv Rate", value: "1.4%" },
-  ],
-};
-
-const SOURCE_DATA = [
-  { source: "Direct Traffic", visitors: "12,500", leads: "850", conv: "6.8%", revenue: "$15,200", status: "Stable" },
-  { source: "AI Chatbot", visitors: "8,200", leads: "1,240", conv: "15.1%", revenue: "$18,400", status: "Trending" },
-  { source: "Email Recovery", visitors: "3,400", leads: "315", conv: "9.2%", revenue: "$9,250", status: "Review" },
-];
-
-const ANOMALIES = [
-  { id: 1, message: "Chatbot conversion dropped 15% in last 4 hours", severity: "high" },
-  { id: 2, message: "CPC spike in Ad Set #4 (Acquisition)", severity: "medium" },
-];
 
 // --- Components ---
 
-const MetricCard = ({ item }: { item: typeof NORTH_STAR[0] }) => (
-  <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 flex flex-col justify-between hover:border-zinc-700 transition-all group">
-    <div className="flex justify-between items-start mb-4">
-      <div className={`p-3 rounded-lg bg-zinc-950 border border-zinc-800 group-hover:border-zinc-700 transition-colors ${item.color}`}>
-        <item.icon className="w-6 h-6" />
-      </div>
-      <div className={`text-sm font-medium px-2 py-1 rounded-full bg-zinc-950 border border-zinc-800 ${item.trend.startsWith('+') ? 'text-emerald-400' : 'text-rose-400'}`}>
-        {item.trend}
-      </div>
-    </div>
-    <div>
-      <h3 className="text-zinc-500 text-sm font-medium uppercase tracking-wider mb-1">{item.label}</h3>
-      <p className="text-3xl font-bold text-white tracking-tight">{item.value}</p>
-    </div>
+const GlassCard = ({ children, className = "", noPadding = false }: { children: React.ReactNode, className?: string, noPadding?: boolean }) => (
+  <div className={`bg-zinc-900/50 backdrop-blur-md border border-zinc-800/60 rounded-2xl hover:border-zinc-700/80 transition-all duration-300 shadow-xl shadow-black/20 ${noPadding ? '' : 'p-6'} ${className}`}>
+    {children}
   </div>
 );
 
-const FunnelColumn = ({ title, metrics, isLast }: { title: string, metrics: { label: string, value: string }[], isLast?: boolean }) => (
-  <div className="flex-1 min-w-[250px] relative">
-    <h4 className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-4 border-b border-zinc-800 pb-2">{title}</h4>
-    <div className="space-y-4">
-      {metrics.map((m, i) => (
-        <div key={i} className="flex justify-between items-center group">
-          <span className="text-zinc-500 text-sm group-hover:text-zinc-400 transition-colors">{m.label}</span>
-          <span className="text-white font-mono font-medium">{m.value}</span>
-        </div>
-      ))}
+const SectionTitle = ({ title, icon: Icon }: { title: string, icon: any }) => (
+  <div className="flex items-center gap-2 mb-4">
+    <Icon className="w-5 h-5 text-indigo-500" />
+    <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400">{title}</h2>
+  </div>
+);
+
+const Metric = ({ label, value, trend, trendUp, glow = false }: { label: string, value: string, trend?: string, trendUp?: boolean, glow?: boolean }) => (
+  <div className="flex flex-col gap-1">
+    <span className="text-xs font-medium text-zinc-500 uppercase tracking-wide">{label}</span>
+    <div className={`text-2xl font-bold tracking-tight text-zinc-100 ${glow ? 'drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]' : ''}`}>
+      {value}
     </div>
-    {!isLast && (
-      <div className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 text-zinc-800 z-10">
-        <Icons.ArrowRight className="w-6 h-6" />
+    {trend && (
+      <div className={`flex items-center gap-1 text-xs font-medium ${trendUp ? 'text-emerald-400' : 'text-rose-400'}`}>
+        {trendUp ? <Icons.TrendingUp className="w-3 h-3" /> : <Icons.TrendingUp className="w-3 h-3 rotate-180" />}
+        {trend}
       </div>
     )}
   </div>
 );
 
-const AlertBanner = ({ anomaly }: { anomaly: typeof ANOMALIES[0] }) => (
-  <div className={`flex items-center gap-3 p-3 rounded-lg border ${anomaly.severity === 'high' ? 'bg-rose-950/20 border-rose-900/50 text-rose-200' : 'bg-amber-950/20 border-amber-900/50 text-amber-200'}`}>
-    <Icons.AlertTriangle className="w-5 h-5 shrink-0" />
-    <span className="text-sm font-medium">{anomaly.message}</span>
+const ProgressBar = ({ value, color = "bg-indigo-500" }: { value: number, color?: string }) => (
+  <div className="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden mt-2">
+    <div className={`h-full ${color} rounded-full`} style={{ width: `${value}%` }}></div>
   </div>
 );
 
+// --- Data ---
+
+const FUNNELS = [
+  {
+    id: 'direct',
+    title: 'Direct Traffic',
+    icon: Icons.Zap,
+    metrics: [
+      { label: 'Visitors', value: '12.5k', trend: '+12%', up: true },
+      { label: 'Conv. Rate', value: '4.2%', trend: '-1.1%', up: false },
+    ],
+    progress: 75,
+    color: 'bg-indigo-500'
+  },
+  {
+    id: 'chatbot',
+    title: 'AI Chatbot',
+    icon: Icons.MessageCircle,
+    metrics: [
+      { label: 'Engaged', value: '3,840', trend: '+24%', up: true },
+      { label: 'Resolved', value: '92%', trend: '+5%', up: true },
+    ],
+    progress: 60,
+    color: 'bg-emerald-500'
+  },
+  {
+    id: 'recovery',
+    title: 'Recovery',
+    icon: Icons.RefreshCw,
+    metrics: [
+      { label: 'Retargeted', value: '1,205', trend: '+8%', up: true },
+      { label: 'Recovered', value: '340', trend: '+15%', up: true },
+    ],
+    progress: 45,
+    color: 'bg-amber-500'
+  },
+  {
+    id: 'organic',
+    title: 'Organic',
+    icon: Icons.Search,
+    metrics: [
+      { label: 'SEO Hits', value: '45.2k', trend: '+3%', up: true },
+      { label: 'Rank #1', value: '12', trend: '0%', up: true },
+    ],
+    progress: 80,
+    color: 'bg-purple-500'
+  },
+];
+
+const RECENT_ACTIVITY = [
+  { id: 1, user: 'User_9281', action: 'Upgraded to Pro', time: '2m ago', amount: '+$49', icon: Icons.Zap },
+  { id: 2, user: 'User_1102', action: 'Chatbot Session', time: '5m ago', amount: 'Active', icon: Icons.MessageCircle },
+  { id: 3, user: 'User_5593', action: 'Cart Abandoned', time: '12m ago', amount: 'Recovering', icon: Icons.RefreshCw },
+  { id: 4, user: 'User_3321', action: 'Organic Sign-up', time: '18m ago', amount: 'Free', icon: Icons.Search },
+];
+
 export default function DashboardPage() {
-  const [activeTab, setActiveTab] = useState<'overview'|'details'>('overview');
-
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-200 font-sans selection:bg-emerald-500/30">
+    <main className="min-h-screen p-4 md:p-8 lg:p-12 space-y-8 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900 via-zinc-950 to-zinc-950">
       
-      {/* Navbar */}
-      <nav className="border-b border-zinc-800/50 bg-zinc-900/30 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-900/20">
-                <Icons.Brain className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-bold text-lg tracking-tight text-white">P2P <span className="text-emerald-500">Engine</span></span>
-            </Link>
-          </div>
-          <div className="flex items-center gap-4">
-             <div className="hidden sm:flex text-xs text-zinc-500 font-mono gap-4">
-                <span>SYSTEM: ONLINE</span>
-                <span>V2.4.0</span>
-             </div>
-             <button className="p-2 hover:bg-zinc-800 rounded-lg transition-colors text-zinc-400 hover:text-white">
-               <Icons.Settings className="w-5 h-5" />
-             </button>
-             <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-400 text-sm font-medium">
-               XO
-             </div>
-          </div>
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-zinc-800/50 pb-6">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">
+            Growth <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-emerald-400">Engine</span>
+          </h1>
+          <p className="text-zinc-400 font-light text-lg">Real-time surveillance of P2P ecosystem.</p>
         </div>
-      </nav>
+        <div className="flex items-center gap-3">
+          <div className="px-4 py-2 rounded-full bg-zinc-900 border border-zinc-800 flex items-center gap-2 text-zinc-400 text-sm">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            System Operational
+          </div>
+          <button className="p-2 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white transition-colors shadow-lg shadow-indigo-900/20">
+            <Icons.ArrowUpRight className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* Bento Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6 grid-rows-[auto_auto]">
         
-        {/* Header & Actions */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        {/* Main Stat Card - Large (Span 2) */}
+        <GlassCard className="md:col-span-2 lg:col-span-2 flex flex-col justify-between relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-indigo-600/20 transition-all duration-500"></div>
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Executive Command Center</h1>
-            <p className="text-zinc-400 text-sm">Real-time performance monitoring across all channels.</p>
-          </div>
-          <div className="flex gap-2">
-            <button className="px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300 hover:text-white hover:border-zinc-700 transition-all text-sm font-medium">
-              Export Report
-            </button>
-          </div>
-        </div>
-
-        {/* 2. Red Flag Alerts (Anomalies) */}
-        {ANOMALIES.length > 0 && (
-          <div className="space-y-2">
-            <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2">Active Anomalies</h3>
-            <div className="grid gap-2">
-              {ANOMALIES.map((anomaly) => (
-                <AlertBanner key={anomaly.id} anomaly={anomaly} />
-              ))}
+            <SectionTitle title="Total Revenue" icon={Icons.Activity} />
+            <div className="mt-4">
+              <span className="text-5xl md:text-6xl font-bold text-white tracking-tighter drop-shadow-[0_0_25px_rgba(99,102,241,0.3)]">
+                $124,592
+              </span>
+              <div className="flex items-center gap-3 mt-4">
+                <span className="px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-sm font-medium border border-emerald-500/20 flex items-center gap-1">
+                  <Icons.TrendingUp className="w-3 h-3" /> +14.2%
+                </span>
+                <span className="text-zinc-500 text-sm">vs last month</span>
+              </div>
             </div>
           </div>
-        )}
+          <div className="mt-8 grid grid-cols-3 gap-4 border-t border-zinc-800/50 pt-6">
+            <Metric label="Active Users" value="14.2k" trend="+5%" trendUp={true} />
+            <Metric label="Churn Rate" value="1.8%" trend="-0.2%" trendUp={true} />
+            <Metric label="LTV" value="$340" trend="+12" trendUp={true} />
+          </div>
+        </GlassCard>
 
-        {/* 1. Top Row: North Star Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {NORTH_STAR.map((metric, i) => (
-            <MetricCard key={i} item={metric} />
-          ))}
-        </div>
+        {/* Secondary Stat Card - Medium (Span 1) */}
+        <GlassCard className="md:col-span-1 lg:col-span-1 flex flex-col justify-between relative overflow-hidden">
+           <div className="absolute bottom-0 left-0 w-48 h-48 bg-emerald-600/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+           <div>
+             <SectionTitle title="Conversion Rate" icon={Icons.Target} />
+             <div className="mt-2">
+               <span className="text-4xl font-bold text-white tracking-tight">3.8%</span>
+             </div>
+           </div>
+           <div className="mt-4 space-y-3">
+             <div className="flex justify-between text-xs text-zinc-400">
+               <span>Target: 4.0%</span>
+               <span>95%</span>
+             </div>
+             <ProgressBar value={95} color="bg-emerald-500" />
+           </div>
+        </GlassCard>
 
-        {/* 1. Middle Row: The Funnel Flow */}
-        <div className="bg-zinc-900/30 border border-zinc-800 rounded-xl p-8">
-           <h3 className="text-lg font-semibold text-white mb-6">Funnel Performance</h3>
-           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 relative">
-             <FunnelColumn title="Acquisition" metrics={FUNNEL_METRICS.acquisition} />
-             <div className="w-full h-px bg-zinc-800 lg:hidden"></div> {/* Mobile Divider */}
-             <FunnelColumn title="Engagement" metrics={FUNNEL_METRICS.engagement} />
-             <div className="w-full h-px bg-zinc-800 lg:hidden"></div> {/* Mobile Divider */}
-             <FunnelColumn title="Conversion" metrics={FUNNEL_METRICS.conversion} isLast />
+        {/* Alerts / Notifications (Span 1) */}
+        <GlassCard className="md:col-span-1 lg:col-span-1 flex flex-col" noPadding>
+          <div className="p-6 border-b border-zinc-800/60 flex justify-between items-center">
+             <SectionTitle title="Live Feed" icon={Icons.Zap} />
+             <Icons.MoreHorizontal className="w-5 h-5 text-zinc-600" />
+          </div>
+          <div className="p-4 space-y-4 overflow-y-auto max-h-[200px] custom-scrollbar">
+            {RECENT_ACTIVITY.map((item) => (
+              <div key={item.id} className="flex items-start gap-3 group">
+                <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 group-hover:border-zinc-700 transition-colors text-zinc-400 group-hover:text-indigo-400">
+                  <item.icon className="w-4 h-4" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-zinc-300 truncate">{item.action}</p>
+                  <p className="text-xs text-zinc-500">{item.time}</p>
+                </div>
+                <span className="text-xs font-mono text-zinc-500">{item.amount}</span>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+
+        {/* 4-Funnel Strategy Row */}
+        <div className="col-span-1 md:col-span-4 lg:col-span-4 mt-4">
+           <h3 className="text-lg font-semibold text-zinc-200 mb-6 flex items-center gap-2">
+             <span className="w-1 h-6 bg-indigo-500 rounded-full"></span>
+             Funnel Performance
+           </h3>
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+             {FUNNELS.map((funnel) => (
+               <GlassCard key={funnel.id} className="relative group hover:-translate-y-1 transition-transform duration-300">
+                 <div className="flex items-center gap-3 mb-4">
+                   <div className={`p-2.5 rounded-xl ${funnel.color} bg-opacity-20 text-white border border-white/10 shadow-inner`}>
+                     <funnel.icon className="w-5 h-5" />
+                   </div>
+                   <h4 className="font-medium text-zinc-200">{funnel.title}</h4>
+                 </div>
+                 
+                 <div className="space-y-4">
+                   <div className="grid grid-cols-2 gap-2">
+                     {funnel.metrics.map((m, i) => (
+                       <div key={i} className="bg-zinc-950/50 rounded-lg p-2 border border-zinc-800/50">
+                         <p className="text-[10px] text-zinc-500 uppercase">{m.label}</p>
+                         <p className="text-lg font-bold text-white">{m.value}</p>
+                         <p className={`text-[10px] ${m.up ? 'text-emerald-400' : 'text-rose-400'}`}>{m.trend}</p>
+                       </div>
+                     ))}
+                   </div>
+                   
+                   <div>
+                     <div className="flex justify-between text-xs text-zinc-500 mb-1">
+                       <span>Efficiency</span>
+                       <span>{funnel.progress}%</span>
+                     </div>
+                     <div className="h-1 w-full bg-zinc-800 rounded-full overflow-hidden">
+                        <div className={`h-full ${funnel.color} rounded-full`} style={{ width: `${funnel.progress}%` }}></div>
+                     </div>
+                   </div>
+                 </div>
+               </GlassCard>
+             ))}
            </div>
         </div>
 
-        {/* 1. Bottom Row: Source Breakdown */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white">Source Breakdown</h3>
-            <div className="flex gap-2 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
-               <button 
-                 onClick={() => setActiveTab('overview')}
-                 className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${activeTab === 'overview' ? 'bg-zinc-800 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
-               >
-                 Overview
-               </button>
-               <button 
-                 onClick={() => setActiveTab('details')}
-                 className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${activeTab === 'details' ? 'bg-zinc-800 text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
-               >
-                 Detailed View
-               </button>
-            </div>
-          </div>
-          
-          <div className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/30">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-zinc-900/50 text-zinc-400 border-b border-zinc-800">
-                <tr>
-                  <th className="px-6 py-4 font-medium">Channel Source</th>
-                  <th className="px-6 py-4 font-medium text-right">Visitors</th>
-                  <th className="px-6 py-4 font-medium text-right">Leads</th>
-                  <th className="px-6 py-4 font-medium text-right">Conv. Rate</th>
-                  <th className="px-6 py-4 font-medium text-right">Revenue</th>
-                  <th className="px-6 py-4 font-medium text-center">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-zinc-800">
-                {SOURCE_DATA.map((row, i) => (
-                  <tr key={i} className="hover:bg-zinc-900/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-white">{row.source}</td>
-                    <td className="px-6 py-4 text-right text-zinc-300">{row.visitors}</td>
-                    <td className="px-6 py-4 text-right text-zinc-300">{row.leads}</td>
-                    <td className="px-6 py-4 text-right text-emerald-400">{row.conv}</td>
-                    <td className="px-6 py-4 text-right text-white font-mono">{row.revenue}</td>
-                    <td className="px-6 py-4 text-center">
-                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                         row.status === 'Trending' ? 'bg-emerald-500/10 text-emerald-500' :
-                         row.status === 'Review' ? 'bg-rose-500/10 text-rose-500' :
-                         'bg-zinc-500/10 text-zinc-500'
-                       }`}>
-                         {row.status}
-                       </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
