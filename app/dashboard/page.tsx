@@ -47,6 +47,11 @@ const Icons = {
       <path d="M12 5v14"/>
     </svg>
   ),
+  Zap: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </svg>
+  ),
 };
 
 // Components
@@ -137,46 +142,39 @@ export default function DashboardPage() {
           {/* Main Content Area - Left Column */}
           <div className="lg:col-span-2 space-y-8">
             
-            {/* Watchlist Input (Grace's Request) */}
+            {/* Creator Dashboard Promo */}
             <section className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden shadow-xl shadow-black/20 relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
               
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-2 bg-zinc-800 rounded-lg">
-                    <Icons.Link className="w-5 h-5 text-emerald-500" />
+                    <Icons.Zap className="w-5 h-5 text-emerald-500" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-semibold text-white">Watchlist Input</h2>
-                    <p className="text-zinc-500 text-sm">Add new target URLs to the Brain for immediate analysis.</p>
+                    <h2 className="text-xl font-semibold text-white">New: Creator Dashboard</h2>
+                    <p className="text-zinc-500 text-sm">Analyze URLs, generate viral scripts, and manage your watchlist.</p>
                   </div>
                 </div>
                 
-                <form className="flex flex-col sm:flex-row gap-4" onSubmit={(e) => e.preventDefault()}>
-                  <div className="flex-1 relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <span className="text-zinc-500">https://</span>
-                    </div>
-                    <input 
-                      type="url" 
-                      placeholder="example.com/target-profile"
-                      className="w-full bg-zinc-950 border border-zinc-700 rounded-lg pl-16 pr-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all hover:border-zinc-600"
-                    />
-                  </div>
-                  <button 
-                    type="submit"
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-6 py-3 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/20 active:scale-95 transform duration-100"
+                <div className="bg-zinc-950/50 rounded-lg p-6 border border-zinc-800/50 flex flex-col sm:flex-row items-center justify-between gap-6">
+                   <div className="text-sm text-zinc-400">
+                      <p>Access the new AI-powered content analysis tools designed for Grace.</p>
+                   </div>
+                   <Link 
+                    href="/dashboard/creator"
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-6 py-3 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/20 active:scale-95 transform duration-100 whitespace-nowrap"
                   >
-                    <Icons.Plus className="w-4 h-4" />
-                    Add to Brain
-                  </button>
-                </form>
+                    Open Creator Dashboard
+                    <Icons.Link className="w-4 h-4" />
+                  </Link>
+                </div>
               </div>
               <div className="bg-zinc-950/50 px-6 py-3 border-t border-zinc-800 flex justify-between items-center text-xs text-zinc-500">
-                <span>Supported: LinkedIn, Twitter/X, GitHub profiles</span>
+                <span>Features: Viral Score, Hook Generator, Visual Briefs</span>
                 <span className="flex items-center gap-1">
                    <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
-                   Engine Ready
+                   Live
                 </span>
               </div>
             </section>
@@ -214,6 +212,10 @@ export default function DashboardPage() {
             <section className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
               <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-4">Quick Actions</h3>
               <div className="space-y-2">
+                 <Link href="/dashboard/creator" className="w-full text-left px-4 py-3 bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 rounded-lg text-zinc-300 text-sm transition-colors flex items-center justify-between group">
+                  <span className="text-emerald-500 font-medium">Open Creator Tools</span>
+                  <Icons.Zap className="w-4 h-4 text-emerald-500 group-hover:text-emerald-400 transition-colors" />
+                </Link>
                 <button className="w-full text-left px-4 py-3 bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 rounded-lg text-zinc-300 text-sm transition-colors flex items-center justify-between group">
                   <span>Start New Campaign</span>
                   <Icons.Plus className="w-4 h-4 text-zinc-600 group-hover:text-white transition-colors" />
